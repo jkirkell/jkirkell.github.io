@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mulesoft, Dynamics CRM, and Kerberos Authentication | Jeff&#39;s Blog</title>
+<link rel="stylesheet" href="//jkirkell.github.io/css/style.css">
+<link rel="stylesheet" href="//jkirkell.github.io/css/override.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css">
+
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="jkirkell.github.io"><h1 class="title is-4">Jeff&#39;s Blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/jkirkell">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Mulesoft, Dynamics CRM, and Kerberos Authentication</h1>
+    <h2 class="subtitle is-6">October 14, 2017</h2>
+    <hr noshade="0" />
+    <div class="content">
+      
+
+<h2 id="overview">Overview</h2>
+
+<p>I have been evaluating Mulesoft Anypoint platform for a large project I am involved in. One of the use cases being reviewed is to see how Mulesoft can integrate with Microsoft Dynamics CRM. The biggest challenge was getting authentication between Mulesoft and Microsoft Dynamics CRM working properly. This post will walk through the steps and values needed.</p>
+
+<h2 id="walkthrough">Walkthrough</h2>
+
+<p>We are going to start in Anypoint Studio with the connector already installed. Off the bat, the connector, like the majority of the connectors Mulesoft is pretty easy to use. The biggest difficulty, and the area that has the least documentation out there is how to authenticate with CRM. There are a number of authentication options available through the connector.</p>
+
+
+
+
+
+  
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="/js/load-photoswipe.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.css" integrity="sha256-sCl5PUOGMLfFYctzDW3MtRib0ctyUvI9Qsmq2wXOeBY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/default-skin/default-skin.min.css" integrity="sha256-BFeI1V+Vh1Rk37wswuOYn5lsTcaU96hGaI7OUVCLjPc=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe.min.js" integrity="sha256-UplRCs9v4KXVJvVY+p+RSo5Q4ilAUXh7kpjyIP5odyc=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.1/photoswipe-ui-default.min.js" integrity="sha256-PWHOlUzc96pMc8ThwRIXPn8yH4NOLu42RQ0b9SpnpFk=" crossorigin="anonymous"></script>
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+<p>First, add a Poll scope to the flow as a container for the Microsoft Dynamics CRM Connector.
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-1.png" alt="Poll scope on the flow."/>
+    </div>
+    <a href="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-1.png" itemprop="contentUrl"></a>
+      <figcaption>
+          <p>Poll scope on the flow.</p>
+      </figcaption>
+  </figure>
+</div></p>
+
+<p>Next, add the Dynamics CRM Connector to the Poll scope on the flow. Once on the flow, click the + to the right of the Connector Configuration to bring up the connection detail dialog.
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-2.png" alt="CRM Connector inside the Poll scope on the flow."/>
+    </div>
+    <a href="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-2.png" itemprop="contentUrl"></a>
+      <figcaption>
+          <p>CRM Connector inside the Poll scope on the flow.</p>
+      </figcaption>
+  </figure>
+</div></p>
+
+<p>Select the &ldquo;Microsoft Dynamics CRM: Kerberos Connection&rdquo; option and then press the &ldquo;Ok&rdquo; button.
+Next, add the Dynamics CRM Connector to the Poll scope on the flow. Once on the flow, click the + to the right of the Connector 
+<link rel="stylesheet" href="/css/hugo-easy-gallery.css" />
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-3.png" alt="CRM Connector Global Type dialog."/>
+    </div>
+    <a href="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-3.png" itemprop="contentUrl"></a>
+      <figcaption>
+          <p>CRM Connector Global Type dialog.</p>
+      </figcaption>
+  </figure>
+</div></p>
+
+<p>The Microsoft Dynamics CRM: Kerberos Connection dialog is where the fun begins. The documentation is limited, and the error messaging doesn&rsquo;t help narrow the problem down. It required a fair amount of trial and error with the values to get it working properly.
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-4.png" alt="CRM Kerberos Connection Type dialog."/>
+    </div>
+    <a href="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-4.png" itemprop="contentUrl"></a>
+      <figcaption>
+          <p>CRM Kerberos Connection Type dialog.</p>
+      </figcaption>
+  </figure>
+</div></p>
+
+<p>We need to identify and populate a number of items in order to establish the connection. The listed order is slightly different than the order on the Kerberos Connection Type dialog to better help with finding the needed information:</p>
+
+<ul>
+<li>Organization Service URL of the CRM server.</li>
+<li>Username and Password used to authenticate with CRM.</li>
+<li>SPN (Service Principal Name) of the CRM server.</li>
+<li>Realm of the Active Directory domain the CRM server resides in.</li>
+<li>KDC (Key Distribution Center) for the domain the CRM server resides in.</li>
+</ul>
+
+<p>For the post, the CRM server is accessible at <a href="http://crm.appdomain.domain.com">http://crm.appdomain.domain.com</a>, resides on the subdomain.domain.com Active Directory domain, and is named crmsvr1. To clarify, CRM is accessible via multiple subdomains.</p>
+
+<h3 id="organization-service-url">Organization Service URL</h3>
+
+<p>This will be the URL that you access your Dynamics CRM server with &ldquo;/XRMServices/2011/Organization.svc&rdquo; added to the end. It is possible that your installation has a different service URL, so check with your CRM Admins if it doesn&rsquo;t work. The full Url will look like <a href="http://crm.appdomain.domain.com/XRMServices/2011/Organization.svc">http://crm.appdomain.domain.com/XRMServices/2011/Organization.svc</a>.</p>
+
+<h3 id="username-and-password">Username and Password</h3>
+
+<p>Credentials for a user account that exists on the same Active Directory domain that the CRM server is running on. The best way to identify the domain if you are unsure is to navigate in a browser to the WSDL for the Organization Service URL identified above <a href="https://crm.appdomain.domain.com/XRMServices/2011/Organization.svc?wsdl">https://crm.appdomain.domain.com/XRMServices/2011/Organization.svc?wsdl</a>
+
+
+<div class="box" >
+  <figure  itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <div class="img">
+      <img itemprop="thumbnail" src="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-5.png" alt="Results from Organization Service WSDL"/>
+    </div>
+    <a href="/images/2017-10-10-mulesoft-dynamics-crm-kerberos-auth-5.png" itemprop="contentUrl"></a>
+      <figcaption>
+          <p>Results from Organization Service WSDL</p>
+      </figcaption>
+  </figure>
+</div>
+Look for the <strong>Identity/Upn</strong> node. In the example, the domain is <strong>subdomain.domain.com</strong>, so the account should be on the same domain and have appropriate access to CRM.</p>
+
+<h3 id="spn-service-principal-name">SPN (Service Principal Name)</h3>
+
+<p>This is a typically auto-generated on a Windows server when it is added to a domain. A complete list of SPNs can be retrieved by running the following from a command prompt on the Dynamics CRM server.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="">C:</span><span style="color:#ae81ff">\&gt;</span><span style="">setspn -l crmsvr1</span></code></pre>
+</div></p>
+
+<p>There will typically be a number of responses, but the one we want looks like so: <strong>HTTP/crm.subdomain.domain.com</strong>.</p>
+
+<p>In cases where the CRM server is part of a cluster, the individual servers will each have duplicate SPNs as well as the SPN of the cluster&rsquo;s load balancer. We have two servers crmsvr1.appdomain.domian.com and crmsvr2.appdomain.domain.com sitting behind a load balancer listening for crm.appdomain.domain.com. Each server will have SPN entries for each server and the load balancer. Use the load balancer&rsquo;s SPN.</p>
+
+<h3 id="realm">Realm</h3>
+
+<p>The fully qualified domain name in Active Directory. This is case sensitive and in every situation I have found, it should be uppercase. In the example, the Realm is <strong>SUBDOMAIN.DOMAIN.COM</strong></p>
+
+<h3 id="kdc-key-distribution-center">KDC (Key Distribution Center)</h3>
+
+<p>For Kerberos, this is a service that runs on every Active Directory domain controller and is used to supply session tickets and temporary keys to users. Mulesoft requires the fully qualified name of one of the domain controllers where the CRM server exists. A server on the subdomain.domain.com Active Directory domain is dc1, so the value for the KDC is dc1.subdomain.domain.com. This is a bit odd because it doesn&rsquo;t seem to support outages to the identified server, but I have not tried to kill the domain controller just to see what happens.</p>
+
+<p>If all goes well, testing the connection will return a success message.</p>
+
+<h2 id="references">References</h2>
+
+<p>The Microsoft Dynamics CRM Connector was created by Mulesoft with assistance from Microsoft, and is supported. For more information on the connector, visit Mulesoft&rsquo;s <a href="https://www.mulesoft.com/exchange/org.mule.modules/mule-module-ms-dynamics-crm" target="_blank">Anypoint Exchange</a> to learn more.</p>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <aside><div id="disqus_thread"></div></aside>
+    <script type="text/javascript">
+      var disqus_shortname = 'blog-xs0y9oxxps';
+      (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p><i class="fa fa-copyright" style="font-size:1.1em;margin-top:2px;"></i> Jeff Kirkell 2017</p>
+  </div>
+</section>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/go.min.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/dockerfile.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-108059992-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+
