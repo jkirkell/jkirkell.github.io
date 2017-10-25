@@ -3,29 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>//jeff.kirkell.com/posts/mulesoft-dynamics-crm-kerberos/</loc>
+    <loc>https://jeff.kirkell.com/posts/mulesoft-dynamics-crm-kerberos/</loc>
     <lastmod>2017-10-14T12:29:26-04:00</lastmod>
   </url>
   
   <url>
-    <loc>//jeff.kirkell.com/categories/</loc>
+    <loc>https://jeff.kirkell.com/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//jeff.kirkell.com/</loc>
-    <lastmod>2017-10-14T12:29:26-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>//jeff.kirkell.com/posts/</loc>
+    <loc>https://jeff.kirkell.com/</loc>
     <lastmod>2017-10-14T12:29:26-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>//jeff.kirkell.com/tags/</loc>
+    <loc>https://jeff.kirkell.com/posts/</loc>
+    <lastmod>2017-10-14T12:29:26-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jeff.kirkell.com/tags/</loc>
     <priority>0</priority>
   </url>
   
