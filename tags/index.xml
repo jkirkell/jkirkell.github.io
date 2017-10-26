@@ -7,9 +7,55 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Jeff Kirkell 2017</copyright>
+    <lastBuildDate>Sat, 14 Oct 2017 12:29:26 -0400</lastBuildDate>
     
 	<atom:link href="https://jeff.kirkell.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Authentication</title>
+      <link>https://jeff.kirkell.com/tags/authentication/</link>
+      <pubDate>Sat, 14 Oct 2017 12:29:26 -0400</pubDate>
+      
+      <guid>https://jeff.kirkell.com/tags/authentication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Enterprise Integration</title>
+      <link>https://jeff.kirkell.com/tags/enterprise-integration/</link>
+      <pubDate>Sat, 14 Oct 2017 12:29:26 -0400</pubDate>
+      
+      <guid>https://jeff.kirkell.com/tags/enterprise-integration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kerberos</title>
+      <link>https://jeff.kirkell.com/tags/kerberos/</link>
+      <pubDate>Sat, 14 Oct 2017 12:29:26 -0400</pubDate>
+      
+      <guid>https://jeff.kirkell.com/tags/kerberos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Microsoft Dynamics Crm</title>
+      <link>https://jeff.kirkell.com/tags/microsoft-dynamics-crm/</link>
+      <pubDate>Sat, 14 Oct 2017 12:29:26 -0400</pubDate>
+      
+      <guid>https://jeff.kirkell.com/tags/microsoft-dynamics-crm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mulesoft</title>
+      <link>https://jeff.kirkell.com/tags/mulesoft/</link>
+      <pubDate>Sat, 14 Oct 2017 12:29:26 -0400</pubDate>
+      
+      <guid>https://jeff.kirkell.com/tags/mulesoft/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
